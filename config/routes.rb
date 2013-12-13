@@ -1,5 +1,8 @@
 BookWriter::Application.routes.draw do
 
+  resources :chapters
+
+
   mount Ckeditor::Engine => '/ckeditor'
 
   # Startseite der Applikation

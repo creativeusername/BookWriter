@@ -13,7 +13,6 @@ class User < ActiveRecord::Base
   attr_accessor :login
 
   has_and_belongs_to_many :books
-  has_many :chunks
 
   validates_presence_of :first_name, :last_name
   validates :username, :uniqueness => {:case_sensitive => false}

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130816215113) do
+ActiveRecord::Schema.define(:version => 20131213115254) do
 
   create_table "books", :force => true do |t|
     t.string   "title"
@@ -29,6 +29,20 @@ ActiveRecord::Schema.define(:version => 20130816215113) do
     t.integer "book_id"
     t.integer "user_id"
   end
+
+  create_table "chapters", :force => true do |t|
+    t.string   "title"
+    t.integer  "position"
+    t.integer  "book_id"
+    t.integer  "chapter_id"
+    t.integer  "chunk_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "chapters", ["book_id"], :name => "index_chapters_on_book_id"
+  add_index "chapters", ["chapter_id"], :name => "index_chapters_on_chapter_id"
+  add_index "chapters", ["chunk_id"], :name => "index_chapters_on_chunk_id"
 
   create_table "chunks", :force => true do |t|
     t.string   "title"
@@ -56,6 +70,22 @@ ActiveRecord::Schema.define(:version => 20130816215113) do
 
   add_index "ckeditor_assets", ["assetable_type", "assetable_id"], :name => "idx_ckeditor_assetable"
   add_index "ckeditor_assets", ["assetable_type", "type", "assetable_id"], :name => "idx_ckeditor_assetable_type"
+
+  create_table "containers", :force => true do |t|
+    t.string   "title"
+    t.integer  "position"
+    t.integer  "book_id"
+    t.integer  "chunk_id"
+    t.integer  "container_id"
+    t.integer  "parent_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "containers", ["book_id"], :name => "index_containers_on_book_id"
+  add_index "containers", ["chunk_id"], :name => "index_containers_on_chunk_id"
+  add_index "containers", ["container_id"], :name => "index_containers_on_container_id"
+  add_index "containers", ["parent_id"], :name => "index_containers_on_parent_id"
 
   create_table "users", :force => true do |t|
     t.string   "first_name"

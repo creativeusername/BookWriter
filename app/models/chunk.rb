@@ -8,14 +8,14 @@ class Chunk < ActiveRecord::Base
 
   attr_accessible :title, :section, :content, :user_id, :book_id, :position, :original_updated_at
 
-  belongs_to :user
-  belongs_to :book
+  belongs_to :chapter
+  belongs_to :book, :through => :chapter
 
   before_validation { self.position ||= book.max_chunk_position + 1 }
 
-  validates_presence_of :title, :book_id, :user_id, :position
-  validates :title, :uniqueness => {:scope => :book_id}
-  validates :position, :uniqueness => {:scope => :book_id}
+  validates_presence_of :title,:position, :chapter_id
+  validates :title, :uniqueness => {:scope => :chapter_id}
+  validates :position, :uniqueness => {:scope => :chapter_id}
   validate :handle_conflict, only: :update
 
   def username

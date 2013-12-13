@@ -3,12 +3,12 @@ class Book < ActiveRecord::Base
   attr_accessible :title, :edition, :published, :genre, :abstract, :tags, :user_ids, :closed
 
   has_and_belongs_to_many :users
-  has_many :chunks
+  has_many :chapters
 
   validates_presence_of :title, :edition
   validates :edition, :uniqueness => {:scope => :title}
 
-  before_destroy :destroy_chunks
+  before_destroy :destroy_chapters
 
   def sliced_attributes
     attributes.slice('title', 'genre', 'abstract', 'tags')
@@ -18,12 +18,8 @@ class Book < ActiveRecord::Base
     !published.nil?
   end
 
-  def has_chunks?
-    !chunks.empty?
-  end
-
-  def max_chunk_position
-    has_chunks? ? chunks.max_by(&:position).position : 0
+  def has_chapters?
+    !chapters.empty?
   end
 
   def users_list
@@ -35,9 +31,9 @@ class Book < ActiveRecord::Base
   end
 
   private
-  def destroy_chunks
-    chunks.each do |chunk|
-      chunk.destroy
+  def destroy_chapters
+    chapters.each do |chapter|
+      chapter.destroy
     end
   end
 
