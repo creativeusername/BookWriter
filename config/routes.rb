@@ -1,7 +1,5 @@
 BookWriter::Application.routes.draw do
 
-  resources :chapters
-
 
   mount Ckeditor::Engine => '/ckeditor'
 
@@ -14,7 +12,9 @@ BookWriter::Application.routes.draw do
     get 'print', :on => :member
     post 'close', :on => :member
     get 'new_edition', :on => :member
-    resources :chunks, :except => [:index]
+    resources :chapters, :except => [:index] do
+      resources :chunks, :except => [:index]
+    end
   end
 
   # The priority is based upon order of creation:

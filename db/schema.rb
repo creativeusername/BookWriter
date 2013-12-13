@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131213115254) do
+ActiveRecord::Schema.define(:version => 20131213164516) do
 
   create_table "books", :force => true do |t|
     t.string   "title"
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(:version => 20131213115254) do
     t.integer  "chunk_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "parent_id"
   end
 
   add_index "chapters", ["book_id"], :name => "index_chapters_on_book_id"

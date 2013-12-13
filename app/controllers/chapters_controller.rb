@@ -1,6 +1,9 @@
 class ChaptersController < ApplicationController
   # GET /chapters
   # GET /chapters.json
+
+  before_filter :find_book
+
   def index
     @chapters = Chapter.all
 
@@ -41,10 +44,11 @@ class ChaptersController < ApplicationController
   # POST /chapters.json
   def create
     @chapter = Chapter.new(params[:chapter])
+    @chapter.book =  @book
 
     respond_to do |format|
       if @chapter.save
-        format.html { redirect_to @chapter, notice: 'Chapter was successfully created.' }
+        format.html { redirect_to book_chapter_path(@book, @chapter), notice: 'Chapter was successfully created.' }
         format.json { render json: @chapter, status: :created, location: @chapter }
       else
         format.html { render action: "new" }
@@ -80,4 +84,9 @@ class ChaptersController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def find_book
+    @book = Book.find(params[:book_id])
+  end
+
 end
